@@ -19,11 +19,21 @@
 	</parent>
 
 	<dependencies>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
-			<groupId>cn.wnn.myeducation</groupId>
-			<artifactId>myeducation_common_jar</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.18</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
