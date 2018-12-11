@@ -1,10 +1,13 @@
 package cn.wnn.myeducation.service;
 
+import cn.wnn.myeducation.bean.Page;
 import cn.wnn.myeducation.bean.School;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/12/1 0001.
@@ -16,8 +19,21 @@ public interface SchoolService {
     public String test();
 
     @RequestMapping("/allSchool")
-    public List<School> getAllSchoole();
+    public Page<School> getAllSchoole(@RequestBody Map<String,Object> map);
 
     @RequestMapping("/pastAllSchool")
-    public List<School> pastAllSchool();
+    public Page<School> pastAllSchool(@RequestBody Map<String,Object> map);
+
+
+    @RequestMapping("/addSchool")
+    void addSchool(@RequestBody School school);
+
+    @RequestMapping("/updateSchoolStatus")
+    void updateSchoolStatus(@RequestBody School school);
+
+    @RequestMapping("/getSchooleById/{id}")
+    School getSchooleById(@PathVariable("id") String id);
+
+    @RequestMapping("/updateSchoole")
+    void updateSchool(@RequestBody School school);
 }
