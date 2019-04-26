@@ -11,6 +11,7 @@ import java.util.Map;
 public interface SchoolService {
 
     public PageInfo<School> getAll(Map<String, Object> map);
+
     public PageInfo<School>  pastAllSchool(Map<String, Object> map);
 
     void addSchool(School school);

@@ -1,9 +1,12 @@
 package cn.wnn.myeducation.controller;
 
 import cn.wnn.myeducation.WebUtil;
+import cn.wnn.myeducation.bean.Classroom;
 import cn.wnn.myeducation.bean.Page;
 import cn.wnn.myeducation.bean.School;
+import cn.wnn.myeducation.poi.PoiUtil;
 import cn.wnn.myeducation.service.SchoolService;
+import cn.wnn.myeducation.util.DateUtil;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,6 +62,7 @@ public class SchoolController {
         WebUtil.spellUrl(page,request,map);
 
         request.setAttribute("page",page);
+        request.setAttribute("status","1");
         return "schoolList";
     }
     //停用校区，模版使用一个schoolList
@@ -75,6 +78,7 @@ public class SchoolController {
         WebUtil.spellUrl(page,request,map);
 
         request.setAttribute("page",page);
+        request.setAttribute("status","0");
         return "schoolList";
     }
     @RequestMapping("/toSchoolAdd.html")
@@ -89,8 +93,7 @@ public class SchoolController {
 
         if(school.getId()==null) {
             //新增校区默认状态都为1
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String date = format.format(new Date());
+            String date = DateUtil.currentDate();
             school.setCreateDate(date);
             school.setStatus("1");
             schoolService.addSchool(school);
@@ -121,7 +124,7 @@ public class SchoolController {
 
 //        ServletContext servletContext = request.getServletContext();
 //        String realPath = servletContext.getRealPath("static/classroom.xlsx");
-        String realPath="F:\\workspace_onlineEducation\\myeducation_parent\\myeducation_school_web\\src\\main\\resources\\static\\static\\classroom.xlsx";
+        String realPath="F:\\workspace_onlineEducation\\myeducation_parent\\myeducation_school_web\\src\\main\\resources\\static\\static\\classroomTemplate.xlsx";
         try {
             FileInputStream in = new FileInputStream(realPath);
             response.setContentType("application/force-download");// 设置强制下载不打开
@@ -136,11 +139,11 @@ public class SchoolController {
 
     //上传教室信息
     @RequestMapping("formUploadroom")
-    @ResponseBody
     public String formUploadroom(MultipartFile classroom,String schId){
-
-        //TODO:poi操作数据到数据库中
-        System.out.println("success");
-        return null;
+        List<Classroom> list = PoiUtil.parseClassroomExcel(classroom, schId);
+        //添加数据到数据库中
+        schoolService.addAllClassroom(list);
+        // 转发到教室页面
+        return "forward:/classroomall?pageNo=1&pageSize=5";
     }
 }

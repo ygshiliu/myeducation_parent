@@ -40,5 +40,6 @@ public class School implements Serializable{
     private String status;
     @Column(name="sch_remarks")
     private String remarks;
-
+    @Column(name="sch_postcode")
+    private String postcode;
 }

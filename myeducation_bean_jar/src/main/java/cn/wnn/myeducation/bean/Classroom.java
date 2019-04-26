@@ -23,10 +23,16 @@ public class Classroom  implements Serializable {
 	private Integer Id;
 
    	@Column(name = "sch_id" )
-	private Integer schId;
+	private String schId;
+
+	@Column(name="room_no")
+   	private String roomNo;
 
    	@Column(name = "room_site" )
 	private String site;
+
+	@Column(name = "room_status" )
+	private String status;
 
    	@Column(name = "room_total_people" )
 	private Integer totalPeople;

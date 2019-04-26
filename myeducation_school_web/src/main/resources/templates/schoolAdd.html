@@ -24,7 +24,7 @@
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
 
-<title>添加用户 - H-ui.admin v3.1</title>
+<title>添加学校</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
@@ -45,13 +45,19 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮编：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="postcode" name="postcode" th:value="${school.postcode}">
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>校长：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="rector" name="rector" th:value="${school.rector}">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>电话：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>固定电话：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="" placeholder="" id="telephone" name="telephone" th:value="${school.telephone}">
 			</div>
@@ -116,29 +122,47 @@ $(function(){
             },
 			telephone:{
 				required:true,
-				isMobile:true,
+                isTel:true
 			},
 			email:{
 				required:true,
 				email:true,
-			},
+			}
 
 		},
 		onkeyup:false,
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-		    console.dir(form);
-		    console.dir(parent);
-		    console.dir(parent.layer);
 		    $(form).attr("action","schoolAdd");
 			$(form).ajaxSubmit();
+
+            //睡眠5秒，等待后台处理完毕
+            sleep(2000);
+
+            //获取父层
 			var index = parent.layer.getFrameIndex(window.name);
-            console.dir(index);
-			//parent.$('.btn-refresh').click();
-			parent.layer.close(index);
+
+            // console.log(window.parent.document.getElementById('DataTables_Table_0_wrapper'))
+            window.parent.location.reload();
+            //关闭弹出层
+            parent.layer.close(index);
+
 		}
 	});
+
+
+	//使js休眠
+    function sleep(numberMillis) {
+        var now = new Date();
+        var exitTime = now.getTime() + numberMillis;
+        while (true) {
+            now = new Date();
+            if (now.getTime() > exitTime)
+                return;
+        }
+    }
+
 });
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->
